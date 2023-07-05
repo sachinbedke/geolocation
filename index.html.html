@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap By SKILLHUB</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+ <button type="button" class="btn btn-primary" onclick="handleLocation()">Get Location</button>
+ <div  id="root" class=" "></div>
+ <div  id="root1" class=" "></div>
+ <div  id="root2" class=" "></div>
+ <div  id="root3" class=" "></div>
+ <div  id="root4" class=" "></div>
+  <script>
+   const API_KEY ="61c0f5b2d1114609bca3fd29fcf557dc"
+     const getLocation = data => {
+        console.log(data);
+        const { coords } = data
+        const LAT = coords.latitude
+        const LNG = coords.longitude
+      
+        fetch(`https://api.opencagedata.com/geocode/v1/json?q=${LAT}+${LNG}&key=${API_KEY}`)
+     
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    const { 
+      postcode,
+      country,
+       city,
+        road,
+         state, 
+         suburb } = data.results[0].components
+    document.getElementById("root").innerHTML = postcode
+    console.log(postcode)
+    document.getElementById("root1").innerHTML = road
+    console.log(road)
+    document.getElementById("root2").innerHTML = city
+    console.log(city)
+    document.getElementById("root3").innerHTML = state
+    console.log(state)
+    document.getElementById("root4").innerHTML = country
+    console.log(country)
+  })
+      .catch(err => console.log(err))
+    }
+     const handleErr = err => console.log(err)
+
+     
+
+     const handleLocation = () => 
+     {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(getLocation,handleErr,{ enableHighAccuracy:true})
+        }
+        else{
+            console.log("geolocation not available");
+        }
+     }
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" ></script>
+  </body>
+</html>
